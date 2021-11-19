@@ -4,8 +4,14 @@ import Link from "next/link";
 import styles from "../styles/Home.module.css";
 import { useAuth } from "../components/Auth/auth";
 
+import { useAuthState } from "react-firebase-hooks/auth";
+import { createCheckoutSession } from "../stripe/createCheckoutSession";
+import usePremiumStatus from "../stripe/usePremiumStatus";
+
 export default function Home() {
   const { user, loading, signOut } = useAuth();
+
+  const userIsPremium = usePremiumStatus(user);
 
   // loading state
   if (loading) {
@@ -29,6 +35,13 @@ export default function Home() {
           <>
             <p>Email: {user.email}</p>
             <p>UID: {user.uid}</p>
+            {!userIsPremium ? (
+            <button onClick={() => createCheckoutSession(user.uid)}>
+              Upgrade to premium!
+            </button>
+          ) : (
+            <h2>Have a cookie 🍪 Premium customer!</h2>
+          )}
             <button onClick={signOut}>Log Out</button>
           </>
         ) : (

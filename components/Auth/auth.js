@@ -10,12 +10,12 @@ import {
   confirmPasswordReset as fConfirmPasswordReset,
 } from "firebase/auth";
 // Firestore (optional): uncomment the next line if you want to create a database for your users
-// import {
-//   getFirestore,
-//   collection,
-//   addDoc,
-//   Timestamp,
-// } from "firebase/firestore";
+import {
+  getFirestore,
+  collection,
+  addDoc,
+  Timestamp,
+} from "firebase/firestore";
 import { config } from "./config";
 
 // initialize auth context
@@ -32,14 +32,14 @@ export const AuthProvider = ({ children }) => {
 
 // firebase functions are defined here
 const useAuthProvider = () => {
-  let firebaseApp;
+  //let firebaseApp;
   if (!getApps().length) {
-    firebaseApp = initializeApp(config);
+    global.firebaseApp = initializeApp(config);
   }
-  const auth = getAuth(firebaseApp);
+  const auth = getAuth(global.firebaseApp);
 
   // Firestore (optional): uncomment the next line if you want to create a database for your users
-  // const db = getFirestore(firebaseApp);
+  const db = getFirestore(global.firebaseApp);
 
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -64,7 +64,7 @@ const useAuthProvider = () => {
 
   const signUp = async (email, password) => {
     // Firestore (optional): uncomment the next line if you want to create a database for your users
-    // const usersRef = collection(db, "users");
+    const usersRef = collection(db, "users");
 
     const response = await createUserWithEmailAndPassword(
       auth,
@@ -73,11 +73,11 @@ const useAuthProvider = () => {
     );
 
     // Firestore (optional): uncomment the next block of code if you want to create a database for your users
-    // await addDoc(usersRef, { // adds new user to 'users' collection
-    //   uuid: response.user.uid,
-    //   timestamp: Timestamp.now(),
-    //   email,
-    // });
+    await addDoc(usersRef, { // adds new user to 'users' collection
+      uuid: response.user.uid,
+      timestamp: Timestamp.now(),
+      email,
+    });
   };
 
   const signOut = async () => {
