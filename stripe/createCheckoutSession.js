@@ -69,6 +69,7 @@ export async function createCheckoutSession(uid) {
       alert(`Stripe is: ${JSON.stringify(stripe)}`)
       stripe.redirectToCheckout({ sessionId });
       alert('stripe initialized');
+      getAuth().setCustomUserClaims(uid, { stripeRole: true }); //tried this but no difference, as claims doesn't appear to be added as well
     }
   });
 }
