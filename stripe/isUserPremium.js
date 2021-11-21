@@ -13,6 +13,6 @@ export default async function isUserPremium(){
   await auth.currentUser?.getIdToken(true);
   //const decodedToken = await firebase.auth().currentUser?.getIdTokenResult();
   const decodedToken = await auth.currentUser?.getIdTokenResult();
-
+  alert(`${JSON.stringify(decodedToken?.claims)}`); // there is no stripeRole property from claims.
   return decodedToken?.claims?.stripeRole ? true : false;
 }
