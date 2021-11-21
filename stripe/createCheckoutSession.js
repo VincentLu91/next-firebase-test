@@ -45,7 +45,7 @@ export async function createCheckoutSession(uid) {
   let uidDocRef = doc(userCollRef, uid);
   let checkoutSessCollRef = collection(uidDocRef, "checkout_sessions")
   const checkoutSessionRef = await addDoc(checkoutSessCollRef, newObj);
-  alert(`${JSON.stringify(checkoutSessionRef)}`);
+  alert(`checkoutSessionRef is: ${JSON.stringify(checkoutSessionRef)}`);
 
   // Wait for the CheckoutSession to get attached by the extension
   /*checkoutSessionRef.onSnapshot(async (snap) => {
@@ -60,8 +60,8 @@ export async function createCheckoutSession(uid) {
   //const unsub = onSnapshot(doc(db, "users", uid), (doc) => {
   const unsub = onSnapshot(checkoutSessionRef, async (doc) => {
     const { sessionId } = doc.data();
-    alert(`${JSON.stringify(doc.data())}`);
-    alert(`${JSON.stringify(sessionId)}`);
+    alert(`doc.data is: ${JSON.stringify(doc.data())}`);
+    alert(`sessionId is: ${JSON.stringify(sessionId)}`);
     if (sessionId) {
       // We have a session, let's redirect to Checkout
       // Init Stripe
