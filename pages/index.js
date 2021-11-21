@@ -35,13 +35,13 @@ export default function Home() {
           <>
             <p>Email: {user.email}</p>
             <p>UID: {user.uid}</p>
-            {!userIsPremium ? (
-            <button onClick={() => createCheckoutSession(user.uid)}>
-              Upgrade to premium!
-            </button>
-          ) : (
-            <h2>Have a cookie 🍪 Premium customer!</h2>
-          )}
+            {!user.uid.create_sessions ? (
+              <button onClick={() => createCheckoutSession(user.uid)}>
+                Upgrade to premium!
+              </button>
+            ) : (
+              <h2>Have a cookie 🍪 Premium customer!</h2>
+            )}
             <button onClick={signOut}>Log Out</button>
           </>
         ) : (

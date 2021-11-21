@@ -8,7 +8,7 @@ import {
 import { getAuth } from "firebase/auth";
 
 export default async function isUserPremium(){
-  const auth = getAuth(global.firebaseApp);
+  const auth = getAuth();
   //await firebase.auth().currentUser?.getIdToken(true);
   await auth.currentUser?.getIdToken(true);
   //const decodedToken = await firebase.auth().currentUser?.getIdTokenResult();
