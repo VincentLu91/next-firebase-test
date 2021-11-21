@@ -35,7 +35,7 @@ export default function Home() {
           <>
             <p>Email: {user.email}</p>
             <p>UID: {user.uid}</p>
-            {!user.uid.create_sessions ? (
+            {!userIsPremium ? (
               <button onClick={() => createCheckoutSession(user.uid)}>
                 Upgrade to premium!
               </button>
