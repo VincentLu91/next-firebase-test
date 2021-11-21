@@ -10,6 +10,7 @@ import {
 } from "firebase/firestore";
 import { config } from "../components/Auth/config"
 import { getAuth } from "firebase/auth";
+import {loadStripe} from '@stripe/stripe-js';
 
 export async function createCheckoutSession(uid) {
   //const firestore = firebase.firestore();
@@ -56,13 +57,16 @@ export async function createCheckoutSession(uid) {
       stripe.redirectToCheckout({ sessionId });
     }
   });*/
-  const unsub = onSnapshot(doc(db, "users", uid), (doc) => {
+  //const unsub = onSnapshot(doc(db, "users", uid), (doc) => {
+  const unsub = onSnapshot(checkoutSessionRef, async (doc) => {
     const { sessionId } = doc.data();
+    alert(`${JSON.stringify(doc.data())}`);
     alert(`${JSON.stringify(sessionId)}`);
     if (sessionId) {
       // We have a session, let's redirect to Checkout
       // Init Stripe
-      const stripe = initializeStripe();
+      const stripe = await initializeStripe();
+      alert(`Stripe is: ${JSON.stringify(stripe)}`)
       stripe.redirectToCheckout({ sessionId });
       alert('stripe initialized');
     }
